@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
 :root {
     --correct-color: #6aaa64;
     --wrong-position-color: #c9b458;
@@ -37,13 +39,6 @@ h1 {
     font-size: 2.5rem;
     font-weight: bold;
     color: var(--text-color);
-    letter-spacing: 2px;
-}
-
-.divider {
-    height: 2px;
-    background-color: #d3d6da;
-    margin: 15px 0;
 }
 
 #game-board {
@@ -55,7 +50,7 @@ h1 {
 
 .row {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 5px;
 }
 
@@ -71,32 +66,12 @@ h1 {
     transition: all 0.2s;
 }
 
-.tile.filled {
-    border-color: #878a8c;
-}
-
-.tile.correct {
-    background-color: var(--correct-color);
-    border-color: var(--correct-color);
-    color: white;
-}
-
-.tile.wrong-position {
-    background-color: var(--wrong-position-color);
-    border-color: var(--wrong-position-color);
-    color: white;
-}
-
-.tile.wrong {
-    background-color: var(--wrong-color);
-    border-color: var(--wrong-color);
-    color: white;
-}
-
-#keyboard {
+.keyboard {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     gap: 8px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .keyboard-row {
@@ -112,26 +87,8 @@ h1 {
     padding: 15px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s;
-}
-
-.key:hover {
-    opacity: 0.9;
-}
-
-.key.correct {
-    background-color: var(--correct-color);
-    color: white;
-}
-
-.key.wrong-position {
-    background-color: var(--wrong-position-color);
-    color: white;
-}
-
-.key.wrong {
-    background-color: var(--wrong-color);
-    color: white;
+    min-width: 30px;
+    font-size: 1.1rem;
 }
 
 .message {
@@ -143,40 +100,34 @@ h1 {
     color: white;
     padding: 15px 25px;
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    animation: fadeIn 0.3s;
+    display: none;
 }
 
-.replay-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #538d4e;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+.correct { background-color: var(--correct-color); color: white; }
+.wrong-position { background-color: var(--wrong-position-color); color: white; }
+.wrong { background-color: var(--wrong-color); color: white; }
 
-.replay-button:hover {
-    background-color: #437c3e;
+.loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .replay-button {
     position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
     padding: 15px 30px;
     background-color: #1a1a1b;
     color: white;
     border: none;
     border-radius: 8px;
-    font-family: 'Poppins', Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.1rem;
     font-weight: 500;
     cursor: pointer;
@@ -184,70 +135,124 @@ h1 {
     visibility: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
+
+@media (min-width: 769px) {
+    .replay-button {
+        right: 20px;
+        top: 70%;
+        transform: translateY(-50%) translateX(0);
+    }
+
+    .replay-button:hover {
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        background-color: #2a2a2b;
+    }
+
+    .replay-button:active {
+        transform: translateY(-50%) scale(0.95);
+    }
+}
+
+/* Mobile positioning */
+@media (max-width: 768px) {
+    .replay-button {
+        top: 30%;
+        left: 70%;
+        transform: translate(-50%, -50%);
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+
+    .replay-button:active {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    /* Disable keyboard when game is over */
+    .keyboard.game-over {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    .replay-button.visible {
+        animation: buttonPop 0.4s ease-out forwards;
+    }
+
+    #game-board {
+        width: 95%;
+        max-width: 350px;
+        margin: 0 auto 30px auto;
+    }
+
+    .tile {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .row {
+        gap: 3px;
+    }
+}
+
+@media (max-width: 380px) {
+    #game-board {
+        width: 90%;
+        max-width: 300px;
+    }
+
+    .tile {
+        font-size: 1.2rem;
+        border-width: 1.5px;
+    }
+
+    .row {
+        gap: 2px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 320px) {
+    #game-board {
+        width: 85%;
+        max-width: 280px;
+    }
+
+    .tile {
+        font-size: 1rem;
+    }
+}
+
 
 .replay-button.visible {
     opacity: 1;
     visibility: visible;
 }
 
-.replay-button:hover {
-    transform: translateY(-50%) scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-    background-color: #2a2a2b;
-}
 
-.replay-button:active {
-    transform: translateY(-50%) scale(0.95);
+@keyframes buttonPop {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-.keyboard {
-    display: grid;
-    grid-template-rows: repeat(4, 1fr);
-    gap: 8px;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 5px;
-}
-@media screen and (max-width: 768px) {
-    .keyboard {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        background-color: var(--bg-color);
-        padding: 8px 4px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-    }
-
-    .key {
-        padding: 10px 5px;
-        font-size: 0.9rem;
-        min-width: 25px;
-        height: 40px;
-    }
-
-    /* Add styles for Cyrillic keyboard */
-    .key[data-key^="А"],
-    .key[data-key^="Б"],
-    .key[data-key^="В"] {
-        font-family: 'Arial', sans-serif;
-    }
-}
-
-@media screen and (max-width: 380px) {
-    .key {
-        padding: 8px 3px;
-        font-size: 0.8rem;
-        height: 35px;
-    }
-}
-/* Add Poppins font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
