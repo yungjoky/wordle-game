@@ -1,0 +1,253 @@
+:root {
+    --correct-color: #6aaa64;
+    --wrong-position-color: #c9b458;
+    --wrong-color: #787c7e;
+    --bg-color: #ffffff;
+    --text-color: #1a1a1b;
+    --keyboard-bg: #d3d6da;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+    letter-spacing: 2px;
+}
+
+.divider {
+    height: 2px;
+    background-color: #d3d6da;
+    margin: 15px 0;
+}
+
+#game-board {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+    margin-bottom: 30px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.tile {
+    aspect-ratio: 1;
+    border: 2px solid #d3d6da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.tile.filled {
+    border-color: #878a8c;
+}
+
+.tile.correct {
+    background-color: var(--correct-color);
+    border-color: var(--correct-color);
+    color: white;
+}
+
+.tile.wrong-position {
+    background-color: var(--wrong-position-color);
+    border-color: var(--wrong-position-color);
+    color: white;
+}
+
+.tile.wrong {
+    background-color: var(--wrong-color);
+    border-color: var(--wrong-color);
+    color: white;
+}
+
+#keyboard {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.key {
+    background-color: var(--keyboard-bg);
+    border: none;
+    border-radius: 4px;
+    padding: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.key:hover {
+    opacity: 0.9;
+}
+
+.key.correct {
+    background-color: var(--correct-color);
+    color: white;
+}
+
+.key.wrong-position {
+    background-color: var(--wrong-position-color);
+    color: white;
+}
+
+.key.wrong {
+    background-color: var(--wrong-color);
+    color: white;
+}
+
+.message {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    animation: fadeIn 0.3s;
+}
+
+.replay-button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #538d4e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.replay-button:hover {
+    background-color: #437c3e;
+}
+
+.replay-button {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 15px 30px;
+    background-color: #1a1a1b;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.replay-button.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.replay-button:hover {
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background-color: #2a2a2b;
+}
+
+.replay-button:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.keyboard {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 5px;
+}
+@media screen and (max-width: 768px) {
+    .keyboard {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        background-color: var(--bg-color);
+        padding: 8px 4px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+    .key {
+        padding: 10px 5px;
+        font-size: 0.9rem;
+        min-width: 25px;
+        height: 40px;
+    }
+
+    /* Add styles for Cyrillic keyboard */
+    .key[data-key^="А"],
+    .key[data-key^="Б"],
+    .key[data-key^="В"] {
+        font-family: 'Arial', sans-serif;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .key {
+        padding: 8px 3px;
+        font-size: 0.8rem;
+        height: 35px;
+    }
+}
+/* Add Poppins font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
